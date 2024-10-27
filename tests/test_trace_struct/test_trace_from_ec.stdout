@@ -1,0 +1,3 @@
+Error: errore::a::Error
+╰─▶ <errore::a::Error> ...
+    ╰╴ tests/test_trace_struct.rs:48:14

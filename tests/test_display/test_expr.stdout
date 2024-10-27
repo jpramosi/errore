@@ -1,0 +1,2 @@
+errore::test_display::Error: 1 + 1 = 2
+    at tests/test_display.rs:126:21

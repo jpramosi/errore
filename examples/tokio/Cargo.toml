@@ -1,0 +1,11 @@
+[package]
+name = "example-tokio"
+description = "Example of how to use errore with the tokio crate with an optional wrapper"
+edition.workspace = true
+license.workspace = true
+publish = false
+version.workspace = true
+
+[dependencies]
+errore = { path = "../.." }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }

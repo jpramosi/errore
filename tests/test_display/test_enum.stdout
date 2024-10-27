@@ -1,0 +1,8 @@
+errore::test_display::Braced: braced error: 0
+    at tests/test_display.rs:71:9
+
+errore::test_display::Tuple: tuple error: 0
+    at tests/test_display.rs:72:9
+
+errore::test_display::Unit: unit error
+    at tests/test_display.rs:73:9

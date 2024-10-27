@@ -1,0 +1,12 @@
+[package]
+name = "example-tracing"
+description = "Example of how to use errore with the tracing crate"
+edition.workspace = true
+license.workspace = true
+publish = false
+version.workspace = true
+
+[dependencies]
+errore = { path = "../.." }
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }

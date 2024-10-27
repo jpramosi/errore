@@ -1,0 +1,11 @@
+[package]
+name = "example-display"
+description = "Example of how to use errore with the display derive macro"
+edition.workspace = true
+license.workspace = true
+publish = false
+version.workspace = true
+
+[dependencies]
+env_logger = { version = "0.11.5" }
+errore = { path = "../.." }

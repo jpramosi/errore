@@ -1,0 +1,11 @@
+[package]
+name = "test-utils"
+description = ""
+edition.workspace = true
+license.workspace = true
+publish = false
+version.workspace = true
+
+[dependencies]
+dissimilar = { workspace = true }
+errore = { path = "../.." }

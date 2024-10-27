@@ -1,0 +1,19 @@
+errore::b::Io: ...
+    at tests/test_trace_mixed.rs:373:20
+
+Error: errore::b::Io
+├─▶ <errore::a::Error> ...
+│   ╰╴ tests/test_trace_mixed.rs:373:20
+│
+╰─▶ <errore::b::Io> ...
+    ╰╴ tests/test_trace_mixed.rs:387:20
+
+on_start(): <errore::a::Error> ... at tests/test_trace_mixed.rs:373:20
+on_new_span(): <errore::a::Error> ... at tests/test_trace_mixed.rs:373:20
+on_try_record(): <errore::a::Error> ... at tests/test_trace_mixed.rs:373:20
+on_record(): <errore::a::Error> ... at tests/test_trace_mixed.rs:373:20
+on_try_record(): <errore::a::Error> ... at tests/test_trace_mixed.rs:373:20
+on_new_span(): <errore::b::Io> ... at tests/test_trace_mixed.rs:387:20
+on_try_record(): <errore::b::Io> ... at tests/test_trace_mixed.rs:387:20
+on_record(): <errore::b::Io> ... at tests/test_trace_mixed.rs:387:20
+on_end(): <errore::b::Io> ... at tests/test_trace_mixed.rs:387:20

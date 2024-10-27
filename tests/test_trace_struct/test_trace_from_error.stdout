@@ -1,0 +1,6 @@
+errore::test_trace_struct::Error: ...
+    at tests/test_trace_struct.rs:14:14
+
+Error: errore::test_trace_struct::Error
+╰─▶ <errore::test_trace_struct::Error> ...
+    ╰╴ tests/test_trace_struct.rs:14:14

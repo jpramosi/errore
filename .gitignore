@@ -1,0 +1,7 @@
+**/*.rs.bk
+**/priv
+**/target
+**/tmp
+*.log
+*.txt
+Cargo.lock

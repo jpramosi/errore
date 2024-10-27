@@ -1,0 +1,2 @@
+errore::test_display::Error: unit error
+    at tests/test_display.rs:52:21

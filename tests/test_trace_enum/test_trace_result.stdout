@@ -1,0 +1,16 @@
+<errore::a::Field> display-a at tests/test_trace_enum.rs:76:17
+
+<errore::a::Field> display-a at tests/test_trace_enum.rs:80:17
+
+<errore::b::Field> display-b at tests/test_trace_enum.rs:95:17
+
+<errore::b::Field> display-b at tests/test_trace_enum.rs:100:17
+
+Error: errore::b::Field
+├─▶ <errore::a::Field> display-a
+│   ├╴ tests/test_trace_enum.rs:76:17
+│   ╰╴ tests/test_trace_enum.rs:80:17
+│
+╰─▶ <errore::b::Field> display-b
+    ├╴ tests/test_trace_enum.rs:95:17
+    ╰╴ tests/test_trace_enum.rs:100:17

@@ -1,0 +1,103 @@
+name: CI
+
+env:
+  APT_PACKAGES: gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule: [cron: "40 1 * * *"]
+
+permissions:
+  contents: read
+
+jobs:
+  pre_ci:
+    uses: dtolnay/.github/.github/workflows/pre_ci.yml@master
+
+  install:
+    name: Install build requirements
+    needs: [pre_ci]
+    if: needs.pre_ci.outputs.continue
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gerlero/apt-install@v1
+        with:
+          packages: $APT_PACKAGES
+
+  build:
+    name: Rust ${{matrix.rust}} build
+    needs: [pre_ci, install]
+    if: needs.pre_ci.outputs.continue
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        rust: [nightly-2024-10-17, nightly]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gerlero/apt-install@v1
+        with:
+          packages: $APT_PACKAGES
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: ${{matrix.rust}}
+          components: rust-src
+      - run: rm rust-toolchain.toml &> /dev/null
+      - run: ./scripts/configure.sh
+        env:
+          CHANNEL: ${{matrix.rust}}
+      - run: ./scripts/build.sh
+        env:
+          CHANNEL: ${{matrix.rust}}
+
+  test:
+    name: Rust nightly test
+    needs: [pre_ci]
+    if: needs.pre_ci.outputs.continue
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly
+          components: rust-src
+      - run: ./scripts/test.sh
+        env:
+          CHANNEL: nightly
+
+  miri:
+    name: Miri
+    needs: [pre_ci]
+    if: needs.pre_ci.outputs.continue
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@miri
+        with:
+          toolchain: nightly
+          components: rust-src, miri
+      - run: ./scripts/miri.sh
+        env:
+          CHANNEL: nightly
+
+  doc:
+    name: Documentation
+    needs: [pre_ci]
+    if: needs.pre_ci.outputs.continue
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      RUSTDOCFLAGS: -Dwarnings
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+        with:
+          components: rust-src, rustc
+      - run: ./scripts/doc.sh

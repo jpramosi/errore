@@ -1,0 +1,21 @@
+errore::d::Error: display-d
+    at tests/test_trace_mixed.rs:81:24
+
+Error: errore::d::Error
+├─▶ <errore::c::Field> display-c
+│   ╰╴ tests/test_trace_mixed.rs:81:24
+│
+╰─▶ <errore::d::Error> display-d
+    ├╴ tests/test_trace_mixed.rs:102:13
+    ╰╴ tests/test_trace_mixed.rs:110:13
+
+on_start(): <errore::c::Field> display-c at tests/test_trace_mixed.rs:81:24
+on_new_span(): <errore::c::Field> display-c at tests/test_trace_mixed.rs:81:24
+on_try_record(): <errore::c::Field> display-c at tests/test_trace_mixed.rs:81:24
+on_record(): <errore::c::Field> display-c at tests/test_trace_mixed.rs:81:24
+on_new_span(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:102:13
+on_try_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:102:13
+on_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:102:13
+on_try_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:110:13
+on_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:110:13
+on_end(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:110:13

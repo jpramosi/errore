@@ -1,0 +1,5 @@
+errore::a::Repro: 0
+    at tests/test_display.rs:305:9
+
+errore::b::Repro: 0
+    at tests/test_display.rs:306:9

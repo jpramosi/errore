@@ -1,0 +1,6 @@
+errore::test_trace_enum::Field: ...
+    at tests/test_trace_enum.rs:13:14
+
+Error: errore::test_trace_enum::Field
+╰─▶ <errore::test_trace_enum::Field> ...
+    ╰╴ tests/test_trace_enum.rs:13:14

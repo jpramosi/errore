@@ -1,0 +1,2 @@
+errore::test_display::Error: 0
+    at tests/test_display.rs:269:21

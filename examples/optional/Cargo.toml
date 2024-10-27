@@ -1,0 +1,16 @@
+[package]
+name = "example-optional"
+description = "Example of how to integrate errore optionally in a library with a feature gate"
+edition.workspace = true
+license.workspace = true
+publish = false
+version.workspace = true
+
+[features]
+default = ["thiserror"]
+errore = ["dep:errore"]
+thiserror = ["dep:thiserror"]
+
+[dependencies]
+errore = { path = "../..", optional = true }
+thiserror = { version = "1.0.63", optional = true }

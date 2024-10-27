@@ -1,0 +1,5 @@
+errore::test_display::Some: some error
+    at tests/test_display.rs:105:9
+
+errore::test_display::Other: other error
+    at tests/test_display.rs:106:9

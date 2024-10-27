@@ -1,0 +1,19 @@
+[package]
+name = "test-no-std"
+description = "Crate for no-std integration test"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+publish = false
+version = "0.1.0"
+
+[features]
+ctor = ["errore/ctor"]
+
+[dependencies]
+errore = { path = "../..", default-features = false }
+talc = "4.4.1"
+spin = { version = "0.9.8", features = [
+    "spin_mutex",
+    "lock_api",
+    "portable_atomic",
+], default-features = false }

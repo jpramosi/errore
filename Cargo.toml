@@ -1,0 +1,74 @@
+[package]
+name = "errore"
+description = "derive(Error)"
+authors.workspace = true
+categories = ["rust-patterns", "no-std"]
+documentation = "https://docs.rs/errore"
+edition.workspace = true
+exclude.workspace = true
+keywords = ["error", "error-handling", "derive"]
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+[dependencies]
+ctor = { version = "0.2.8", optional = true }
+defmt = { workspace = true, optional = true }
+errore-impl = { version = "=0.1.0", path = "impl" }
+hash32 = { version = "0.3" }
+hashbrown = { version = "0.12.3" }
+log = { workspace = true, optional = true }
+portable-atomic = { version = "1.9.0", features = [
+    "fallback",
+], default-features = false }
+textwrap = { version = "0.16.1", optional = true }
+inventory = "0.3.15"
+conquer-once = { version = "0.4.0", default-features = false }
+spin = { version = "0.9.8", features = [
+    "rwlock",
+    "portable_atomic",
+], default-features = false }
+
+[dev-dependencies]
+anyhow = "1.0.73"
+dissimilar = { workspace = true }
+env_logger = { workspace = true }
+ref-cast = "1.0.18"
+rustversion = "1.0.13"
+test-utils = { path = "tests/utils" }
+trybuild = { version = "1.0.81", features = ["diff"] }
+
+[features]
+default = ["std", "ctor"]
+ctor = ["dep:ctor"]
+debug-no-std = ["dep:defmt"]
+debug-std = ["std", "dep:log"]
+std = ["dep:textwrap", "conquer-once/std", "portable-atomic/std"]
+
+[package.metadata.docs.rs]
+rustdoc-args.workspace = true
+targets.workspace = true
+
+[workspace]
+members = ["examples/*", "impl", "tests/utils"]
+exclude = ["tests/no-std"]
+
+[workspace.package]
+authors = ["Jimmy Pramosi <jimmy.pramosi@protonmail.com>"]
+edition = "2021"
+exclude = ["docs/", "examples/", "scripts/"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/jpramosi/errore"
+rust-version = "1.82.0"
+version = "0.1.0"
+
+[workspace.dependencies]
+defmt = { version = "0.3.8" }
+dissimilar = "1.0.9"
+env_logger = { version = "0.11.5" }
+log = { version = "0.4" }
+
+[workspace.metadata]
+rustdoc-args = ["--cfg", "docsrs", "--generate-link-to-definition"]
+targets = ["x86_64-unknown-linux-gnu"]

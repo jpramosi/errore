@@ -1,0 +1,16 @@
+<errore::a::Error> display-a at tests/test_trace_struct.rs:74:17
+
+<errore::a::Error> display-a at tests/test_trace_struct.rs:78:17
+
+<errore::b::Error> display-b at tests/test_trace_struct.rs:94:17
+
+<errore::b::Error> display-b at tests/test_trace_struct.rs:99:17
+
+Error: errore::b::Error
+├─▶ <errore::a::Error> display-a
+│   ├╴ tests/test_trace_struct.rs:74:17
+│   ╰╴ tests/test_trace_struct.rs:78:17
+│
+╰─▶ <errore::b::Error> display-b
+    ├╴ tests/test_trace_struct.rs:94:17
+    ╰╴ tests/test_trace_struct.rs:99:17

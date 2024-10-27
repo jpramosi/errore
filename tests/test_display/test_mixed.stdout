@@ -1,0 +1,2 @@
+errore::test_display::Error: a=0 :: b=1 :: c=2 :: d=3
+    at tests/test_display.rs:210:21

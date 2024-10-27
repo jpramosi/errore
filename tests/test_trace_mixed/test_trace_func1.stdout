@@ -1,0 +1,42 @@
+errore::d::Error: display-d
+    at tests/test_trace_mixed.rs:21:24
+
+Error: errore::d::Error
+├─▶ <errore::a::Field> display-a
+│   ├╴ tests/test_trace_mixed.rs:21:24
+│   ╰╴ tests/test_trace_mixed.rs:30:13
+│
+├─▶ <errore::b::Error> display-b
+│   ├╴ tests/test_trace_mixed.rs:49:13
+│   ╰╴ tests/test_trace_mixed.rs:57:13
+│
+├─▶ <errore::c::Field> display-c
+│   ├╴ tests/test_trace_mixed.rs:75:13
+│   ╰╴ tests/test_trace_mixed.rs:83:13
+│
+╰─▶ <errore::d::Error> display-d
+    ├╴ tests/test_trace_mixed.rs:102:13
+    ╰╴ tests/test_trace_mixed.rs:110:13
+
+on_start(): <errore::a::Field> display-a at tests/test_trace_mixed.rs:21:24
+on_new_span(): <errore::a::Field> display-a at tests/test_trace_mixed.rs:21:24
+on_try_record(): <errore::a::Field> display-a at tests/test_trace_mixed.rs:21:24
+on_record(): <errore::a::Field> display-a at tests/test_trace_mixed.rs:21:24
+on_try_record(): <errore::a::Field> display-a at tests/test_trace_mixed.rs:30:13
+on_record(): <errore::a::Field> display-a at tests/test_trace_mixed.rs:30:13
+on_new_span(): <errore::b::Error> display-b at tests/test_trace_mixed.rs:49:13
+on_try_record(): <errore::b::Error> display-b at tests/test_trace_mixed.rs:49:13
+on_record(): <errore::b::Error> display-b at tests/test_trace_mixed.rs:49:13
+on_try_record(): <errore::b::Error> display-b at tests/test_trace_mixed.rs:57:13
+on_record(): <errore::b::Error> display-b at tests/test_trace_mixed.rs:57:13
+on_new_span(): <errore::c::Field> display-c at tests/test_trace_mixed.rs:75:13
+on_try_record(): <errore::c::Field> display-c at tests/test_trace_mixed.rs:75:13
+on_record(): <errore::c::Field> display-c at tests/test_trace_mixed.rs:75:13
+on_try_record(): <errore::c::Field> display-c at tests/test_trace_mixed.rs:83:13
+on_record(): <errore::c::Field> display-c at tests/test_trace_mixed.rs:83:13
+on_new_span(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:102:13
+on_try_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:102:13
+on_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:102:13
+on_try_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:110:13
+on_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:110:13
+on_end(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:110:13

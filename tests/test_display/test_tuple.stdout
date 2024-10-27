@@ -1,0 +1,2 @@
+errore::test_display::Error: tuple error: 0
+    at tests/test_display.rs:42:21

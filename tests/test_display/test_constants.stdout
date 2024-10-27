@@ -1,0 +1,2 @@
+errore::test_display::Error: failed to do: "" (code 9)
+    at tests/test_display.rs:89:21

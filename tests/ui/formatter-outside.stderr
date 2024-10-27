@@ -1,0 +1,12 @@
+error: macro expansion ignores token `{` and any following
+ --> src/global/mod.rs
+  |
+  |     ($type:expr) => {{ let _call_this_within_function = 0; }
+  |                      ^
+  |
+ ::: tests/ui/formatter-outside.rs:8:1
+  |
+8 | errore::formatter!(MyFormatter);
+  | ------------------------------- caused by the macro expansion here
+  |
+  = note: the usage of `formatter!` is likely invalid in item context

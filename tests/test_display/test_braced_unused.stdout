@@ -1,0 +1,2 @@
+errore::test_display::Error: braced error
+    at tests/test_display.rs:32:21

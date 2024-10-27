@@ -1,0 +1,10 @@
+[package]
+name = "example-subscriber"
+description = "Example of how to use a custom subscriber and attach data with extensions"
+edition.workspace = true
+license.workspace = true
+publish = false
+version.workspace = true
+
+[dependencies]
+errore = { path = "../.." }

@@ -1,0 +1,2 @@
+errore::test_display::Error: fn main() {}
+    at tests/test_display.rs:117:21

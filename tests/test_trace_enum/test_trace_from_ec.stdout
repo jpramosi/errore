@@ -1,0 +1,3 @@
+Error: errore::a::Field
+╰─▶ <errore::a::Field> ...
+    ╰╴ tests/test_trace_enum.rs:48:14

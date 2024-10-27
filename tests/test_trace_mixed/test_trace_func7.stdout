@@ -1,0 +1,15 @@
+errore::d::Error: display-d
+    at tests/test_trace_mixed.rs:100:24
+
+Error: errore::d::Error
+╰─▶ <errore::d::Error> display-d
+    ├╴ tests/test_trace_mixed.rs:100:24
+    ╰╴ tests/test_trace_mixed.rs:110:13
+
+on_start(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:100:24
+on_new_span(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:100:24
+on_try_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:100:24
+on_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:100:24
+on_try_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:110:13
+on_record(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:110:13
+on_end(): <errore::d::Error> display-d at tests/test_trace_mixed.rs:110:13

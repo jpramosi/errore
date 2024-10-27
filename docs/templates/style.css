@@ -1,0 +1,7 @@
+.hide-warning .ignore.example-wrap {
+    border-left: unset !important;
+}
+
+.hide-warning .tooltip {
+    display: none !important;
+}

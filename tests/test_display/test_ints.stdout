@@ -1,0 +1,5 @@
+errore::test_display::Tuple: error 9
+    at tests/test_display.rs:226:9
+
+errore::test_display::Struct: error ?
+    at tests/test_display.rs:227:9
