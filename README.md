@@ -184,7 +184,7 @@ For more examples please see [here](https://github.com/jpramosi/errore/tree/mast
 - Generates trait implementations for metadata and error conversion
 - Customizable [`Subscriber`](https://github.com/jpramosi/errore/tree/master/examples/subscriber)
   and [`Formatter`](https://github.com/jpramosi/errore/tree/master/examples/formatter) interface
-- Support for user attached data with [`Extensions`](https://docs.rs/errore/errore/extensions/struct.Extensions.html) at subscriber
+- Support for user attached data with [`Extensions`](https://docs.rs/errore/latest/errore/extensions/struct.Extensions.html) at subscriber
 - Partial API compatibility with [`thiserror`](https://crates.io/crates/thiserror) that allows to optionally
   enable `errore` in public distributed libraries.
   <br>See [`example`](https://github.com/jpramosi/errore/tree/master/examples/optional)

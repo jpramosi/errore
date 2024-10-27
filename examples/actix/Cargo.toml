@@ -4,7 +4,6 @@ description = "Example of how to use errore with the actix crate"
 edition.workspace = true
 license.workspace = true
 publish = false
-version.workspace = true
 
 [dependencies]
 actix-web = "4.9.0"

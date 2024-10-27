@@ -10,7 +10,7 @@ keywords = ["error", "error-handling", "derive"]
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
-version.workspace = true
+version = "0.1.1"
 
 [dependencies]
 ctor = { version = "0.2.8", optional = true }
@@ -47,8 +47,8 @@ debug-std = ["std", "dep:log"]
 std = ["dep:textwrap", "conquer-once/std", "portable-atomic/std"]
 
 [package.metadata.docs.rs]
-rustdoc-args.workspace = true
-targets.workspace = true
+rustdoc-args = ["--cfg", "docsrs", "--generate-link-to-definition"]
+targets = ["x86_64-unknown-linux-gnu"]
 
 [workspace]
 members = ["examples/*", "impl", "tests/utils"]
@@ -61,14 +61,9 @@ exclude = ["docs/", "examples/", "scripts/"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/jpramosi/errore"
 rust-version = "1.82.0"
-version = "0.1.0"
 
 [workspace.dependencies]
 defmt = { version = "0.3.8" }
 dissimilar = "1.0.9"
 env_logger = { version = "0.11.5" }
 log = { version = "0.4" }
-
-[workspace.metadata]
-rustdoc-args = ["--cfg", "docsrs", "--generate-link-to-definition"]
-targets = ["x86_64-unknown-linux-gnu"]

@@ -4,7 +4,6 @@ description = "Example of how to integrate errore optionally in a library with a
 edition.workspace = true
 license.workspace = true
 publish = false
-version.workspace = true
 
 [features]
 default = ["thiserror"]

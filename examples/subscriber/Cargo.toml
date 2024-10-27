@@ -4,7 +4,6 @@ description = "Example of how to use a custom subscriber and attach data with ex
 edition.workspace = true
 license.workspace = true
 publish = false
-version.workspace = true
 
 [dependencies]
 errore = { path = "../.." }

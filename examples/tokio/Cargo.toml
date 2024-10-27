@@ -4,7 +4,6 @@ description = "Example of how to use errore with the tokio crate with an optiona
 edition.workspace = true
 license.workspace = true
 publish = false
-version.workspace = true
 
 [dependencies]
 errore = { path = "../.." }

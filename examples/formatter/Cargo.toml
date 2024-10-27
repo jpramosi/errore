@@ -4,7 +4,6 @@ description = "Example of how to use a custom formatter"
 edition.workspace = true
 license.workspace = true
 publish = false
-version.workspace = true
 
 [dependencies]
 errore = { path = "../.." }
