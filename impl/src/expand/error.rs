@@ -811,9 +811,7 @@ fn impl_error_context(
                             module_path!()
                         );
                         let ctx = value.take_trace();
-                        Self {
-                            span: errore::span::Span::new(ctx, #ty::from(value)),
-                        }
+                        Self(errore::span::Span::new(ctx, #ty::from(value)))
                     }
                 }
             })
@@ -830,9 +828,7 @@ fn impl_error_context(
                             module_path!()
                         );
                         let ctx = None;
-                        Self {
-                            span: errore::span::Span::new(ctx, #ty::from(value)),
-                        }
+                        Self(errore::span::Span::new(ctx, #ty::from(value)))
                     }
                 }
             })
@@ -846,25 +842,20 @@ fn impl_error_context(
         #[allow(unused_qualifications)]
         #[automatically_derived]
         #[derive(Debug)]
-        #vis struct Ec #ty_generics #where_clause {
-            #[doc(hidden)]
-            pub span: errore::span::Span<#ty #ty_generics>,
-        }
+        #vis struct Ec #ty_generics (#[doc(hidden)] pub errore::span::Span<#ty #ty_generics>) #where_clause;
 
         #[allow(unused_qualifications)]
         #[automatically_derived]
         impl #impl_generics Ec #ty_generics #where_clause {
             #[track_caller]
             pub fn new(kind: #ty #static_lifetime) -> Self {
-                Self {
-                    span: errore::span::Span::new(None, kind),
-                }
+                Self(errore::span::Span::new(None, kind))
             }
 
             /// Returns the inherited error with its actual type.
             #[inline]
             pub fn error(&self) -> &#ty #ty_generics {
-                self.span.inner.as_ref()
+                self.0.inner.as_ref()
             }
         }
 
@@ -873,7 +864,7 @@ fn impl_error_context(
         impl #impl_generics ::core::fmt::Display for Ec #ty_generics #where_clause {
             #[inline]
             fn fmt(&self, f: &mut ::core::fmt::Formatter) -> ::core::fmt::Result {
-                self.span.fmt(f)
+                self.0.fmt(f)
             }
         }
 
@@ -882,7 +873,7 @@ fn impl_error_context(
         impl #impl_generics ::core::error::Error for Ec #static_lifetime #where_clause {
             #[inline]
             fn source(&self) -> Option<&(dyn ::core::error::Error + 'static)> {
-                Some(&self.span as &dyn ::core::error::Error)
+                Some(&self.0 as &dyn ::core::error::Error)
             }
         }
 
@@ -895,7 +886,7 @@ fn impl_error_context(
 
             #[inline]
             fn into_iter(self) -> Self::IntoIter {
-                self.span.into_iter()
+                self.0.into_iter()
             }
         }
 
@@ -905,22 +896,22 @@ fn impl_error_context(
         impl #impl_generics errore::Metadata for Ec #static_lifetime #where_clause {
             #[inline]
             fn name(&self) -> &'static str {
-                self.span.inner.name()
+                self.0.inner.name()
             }
 
             #[inline]
             fn id(&self) -> &'static errore::Id {
-                self.span.inner.id()
+                self.0.inner.id()
             }
 
             #[inline]
             fn target(&self) -> &'static str {
-                self.span.inner.target()
+                self.0.inner.target()
             }
 
             #[inline]
             fn target_id(&self) -> &'static errore::Id {
-                self.span.inner.target_id()
+                self.0.inner.target_id()
             }
 
             #[inline]
@@ -930,7 +921,7 @@ fn impl_error_context(
 
             #[inline]
             fn is_transparent(&self) -> bool {
-                self.span.inner.is_transparent()
+                self.0.inner.is_transparent()
             }
         }
 
@@ -942,7 +933,7 @@ fn impl_error_context(
             where
                 E: ::core::error::Error + errore::Extractable + 'static,
             {
-                self.span.get::<E>()
+                self.0.get::<E>()
             }
 
             #[inline]
@@ -950,7 +941,7 @@ fn impl_error_context(
             where
                 E: ::core::error::Error + errore::Extractable + 'static,
             {
-                self.span.has::<E>()
+                self.0.has::<E>()
             }
         }
 
@@ -959,26 +950,26 @@ fn impl_error_context(
         impl #impl_generics errore::Traceable for Ec #ty_generics #where_clause {
             #[inline]
             fn trace(&self) -> &errore::TraceContext {
-                self.span.ctx.as_ref().expect("Trace should be available in 'Traceable::trace'")
+                self.0.ctx.as_ref().expect("Trace should be available in 'Traceable::trace'")
             }
 
             #[inline]
             fn trace_ref(&self) -> Option<&errore::TraceContext> {
-                self.span.ctx.as_ref()
+                self.0.ctx.as_ref()
             }
 
             #[inline]
             fn take_trace(&mut self) -> Option<errore::TraceContext> {
-                self.span.ctx.take()
+                self.0.ctx.take()
             }
 
             #[inline]
             fn inner(&self) -> alloc::sync::Arc<dyn ::core::error::Error + ::core::marker::Send + ::core::marker::Sync> {
-                return self.span.inner.clone();
+                return self.0.inner.clone();
             }
 
             fn insert(&mut self, mut record: errore::TraceRecord) -> bool {
-                let ctx = self.span.ctx.as_mut().expect("Trace should be available in 'Traceable::insert'");
+                let ctx = self.0.ctx.as_mut().expect("Trace should be available in 'Traceable::insert'");
 
                 errore::__private::for_each_subscriber(|s| s.on_try_record(&mut errore::span::SpanContext::new(
                     ctx,
@@ -1007,9 +998,7 @@ fn impl_error_context(
                     #ty_str,
                     module_path!()
                 );
-                Self {
-                    span: errore::span::Span::new(None, value),
-                }
+                Self(errore::span::Span::new(None, value))
             }
         }
 
