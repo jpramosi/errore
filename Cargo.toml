@@ -10,12 +10,12 @@ keywords = ["derive", "error", "error-handling", "trace", "tracing"]
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
-version = "0.2.0"
+version = "0.3.0"
 
 [dependencies]
 ctor = { version = "0.2.8", optional = true }
 defmt = { workspace = true, optional = true }
-errore-impl = { version = "=0.1.0", path = "impl" }
+errore-impl = { version = "=0.2.0", path = "impl" }
 hash32 = { version = "0.3" }
 hashbrown = { version = "0.12.3" }
 log = { workspace = true, optional = true }
