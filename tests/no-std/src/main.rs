@@ -6,6 +6,7 @@
 
 #[allow(unused_imports)]
 use core::panic::PanicInfo;
+use core::ptr::addr_of;
 
 use errore::prelude::*;
 use talc::*;
@@ -13,12 +14,9 @@ use talc::*;
 static mut ARENA: [u8; 10000] = [0; 10000];
 
 #[global_allocator]
-static ALLOCATOR: Talck<spin::Mutex<()>, ClaimOnOom> = Talc::new(unsafe {
-    // if we're in a hosted environment, the Rust runtime may allocate before
-    // main() is called, so we need to initialize the arena automatically
-    ClaimOnOom::new(Span::from_const_array(core::ptr::addr_of!(ARENA)))
-})
-.lock();
+static ALLOCATOR: Talck<spin::Mutex<()>, ClaimOnOom> =
+    Talc::new(unsafe { ClaimOnOom::new(Span::from_array(addr_of!(ARENA) as *mut [u8; 10000])) })
+        .lock();
 
 /// -
 #[derive(Error, Debug)]
