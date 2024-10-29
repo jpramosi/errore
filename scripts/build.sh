@@ -27,9 +27,9 @@ function build_no_std {
 println "Try to build for host architecture '$RUNNER_ARCH'"
 cargo +$CHANNEL build --all
 println "Try to build example-optional with 'thiserror' feature"
-cargo +$CHANNEL build --package example-optional --features thiserror
+cargo +$CHANNEL build --package example-optional --no-default-features --features thiserror
 println "Try to build example-optional with 'errore' feature"
-cargo +$CHANNEL build --package example-optional --features errore
+cargo +$CHANNEL build --package example-optional --no-default-features --features errore
 
 # ctor is not supported
 build_no_std "aarch64-unknown-linux-gnu" "-C link-arg=-nostartfiles -C target-feature=-outline-atomics -C linker=aarch64-linux-gnu-gcc"

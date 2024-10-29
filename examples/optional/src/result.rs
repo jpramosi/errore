@@ -11,6 +11,11 @@ pub type Result<T, E> = errore::result::Result<T, E>;
 #[cfg(not(feature = "errore"))]
 pub type Result<T, E> = core::result::Result<T, E>;
 
+#[cfg(all(feature = "errore", feature = "thiserror"))]
+compile_error!(
+    "Feature 'errore' and 'thiserror' are mutually exclusive and cannot be enabled together"
+);
+
 #[cfg(feature = "errore")]
 #[allow(unused_macros)]
 #[macro_export]
