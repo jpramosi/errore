@@ -1,6 +1,6 @@
 use std::{fs, path::PathBuf};
 
-// if 'error::result::Result' is not needed, a simple wildcard import can be used:
+// if 'errore::result::Result' is not needed, a simple wildcard import can be used:
 // use errore::*;
 use errore::prelude::*;
 

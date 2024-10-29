@@ -1,12 +1,12 @@
 [package]
 name = "errore"
-description = "derive(Error)"
+description = "Library for error handling and tracing"
 authors.workspace = true
 categories = ["rust-patterns", "no-std"]
 documentation = "https://docs.rs/errore"
 edition.workspace = true
 exclude.workspace = true
-keywords = ["error", "error-handling", "derive"]
+keywords = ["derive", "error", "error-handling", "trace", "tracing"]
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true

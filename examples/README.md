@@ -2,29 +2,29 @@
 
 This directory contains a collection of examples that demonstrate the use of the error framework:
 
-- **[actix](https://github.com/jpramosi/errore/tree/master/examples/actix)** / **[axum](https://github.com/jpramosi/errore/tree/master/examples/axum)**:
+- **[actix](https://github.com/jpramosi/errore/tree/master/examples/actix/src)** / **[axum](https://github.com/jpramosi/errore/tree/master/examples/axum/src)**:
     Demonstrates how to integrate errore in a backend server with a tokio runtime which consists of:
     + Using errore's `Result` type along with `std::result::Result` on routes and other asynchronous functions
     + Registration of a custom `Subscriber` and `Formatter`
     + Error inspection & filtering within a subscriber
     + Trait implementation to make errors compatible with responses
-- **[basic](https://github.com/jpramosi/errore/tree/master/examples/basic)**:
+- **[basic](https://github.com/jpramosi/errore/tree/master/examples/basic/src)**:
     An example that shows the basic usage of errore:
     + Declaration of errors
     + Propagation of errors in functions
     + Error grouping & nesting
     + Various error inspection methods
-- **[display](https://github.com/jpramosi/errore/tree/master/examples/display)**:
+- **[display](https://github.com/jpramosi/errore/blob/master/examples/display/src/main.rs)**:
     Examplary code to show how to use the display derive macro
-- **[formatter](https://github.com/jpramosi/errore/tree/master/examples/formatter)**:
+- **[formatter](https://github.com/jpramosi/errore/blob/master/examples/formatter/src/main.rs)**:
     Shows the registration of a custom formatter
 - **[optional](https://github.com/jpramosi/errore/tree/master/examples/optional)**:
     Demonstrates the _optional_ integration of errore in a public library crate with a feature gate
-- **[subscriber](https://github.com/jpramosi/errore/tree/master/examples/subscriber)**:
+- **[subscriber](https://github.com/jpramosi/errore/blob/master/examples/subscriber/src/main.rs)**:
     An example that illustrates the use of a `Subscriber` with `Extensions`
-- **[tokio](https://github.com/jpramosi/errore/tree/master/examples/tokio)**:
+- **[tokio](https://github.com/jpramosi/errore/tree/master/examples/tokio/src)**:
     Demonstrates the use of different methods for error handling with tokio and errore
-- **[tracing](https://github.com/jpramosi/errore/tree/master/examples/tracing)**:
+- **[tracing](https://github.com/jpramosi/errore/blob/master/examples/tracing/src/main.rs)**:
     Shows how to integrate errore in an [OpenTelemetry](https://github.com/open-telemetry/semantic-conventions/blob/main/docs/attributes-registry/exception.md) conform tracing application
 
 <br>

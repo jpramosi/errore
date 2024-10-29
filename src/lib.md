@@ -24,7 +24,7 @@ At the moment errore is in development and breaking changes are to be expected.
 ```rust ignore
 use std::{fs, path::PathBuf};
 
-// if 'error::result::Result' is not needed, a simple wildcard import can be used:
+// if 'errore::result::Result' is not needed, a simple wildcard import can be used:
 // use errore::*;
 use errore::prelude::*;
 
@@ -183,10 +183,10 @@ For more examples please see [here](https://github.com/jpramosi/errore/tree/mast
 # Features
 
 - Tracing capability with rich metadata such as file location and line number without [`backtrace`](https://doc.rust-lang.org/std/backtrace/index.html)
-- Generates trait implementations for metadata and error conversion
+- Generates trait implementations for [`metadata`](https://docs.rs/errore/latest/errore/trait.Metadata.html) and error conversion
 - Customizable [`Subscriber`](https://github.com/jpramosi/errore/tree/master/examples/subscriber)
   and [`Formatter`](https://github.com/jpramosi/errore/tree/master/examples/formatter) interface
-- Support for user attached data with [`Extensions`](https://docs.rs/errore/latest/errore/extensions/struct.Extensions.html) at subscriber
+- Support for user attached data with [`Extensions`](https://docs.rs/errore/latest/errore/struct.ExtensionsMut.html) at subscriber
 - Partial API compatibility with [`thiserror`](https://crates.io/crates/thiserror) that allows to optionally
   enable `errore` in public distributed libraries.
   <br>See [`example`](https://github.com/jpramosi/errore/tree/master/examples/optional)
@@ -196,7 +196,7 @@ For more examples please see [here](https://github.com/jpramosi/errore/tree/mast
 # Limitations & Disadvantages
 
 - Invasive code changes with [`Result`](https://docs.rs/errore/latest/errore/result/enum.Result.html) instrumentation are required
-- Nightly compiler is required
+- [Nightly compiler](https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust) is required
 - Only one error per module can be defined
 - No recursive or self-referencing fields
 - Error conversion with attribute macro `#from` requires a trait implementation of `std::error::Error` for the type
