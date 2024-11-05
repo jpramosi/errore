@@ -1,4 +1,4 @@
-error: macro expansion ignores token `{` and any following
+error: macro expansion ignores `{` and any tokens following
  --> src/global/mod.rs
   |
   |     ($type:expr) => {{ let _call_this_within_function = 0; }
