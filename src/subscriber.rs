@@ -2,7 +2,10 @@ use core::fmt::Debug;
 use core::marker::{Send, Sync};
 
 use crate::span::SpanContext;
-use crate::trace::TraceContext;
+use crate::trace::{TraceContext, TraceContextBuilder, TraceRecord};
+
+const TRACE_RESERVE: usize = 10;
+const EXT_RESERVE: usize = 5;
 
 /// A handler for error events.
 ///
@@ -15,7 +18,11 @@ pub trait Subscriber: Sync + Send {
     ///
     /// This handler is called before any other handler
     /// and is ideal for initializing data for a context.
-    fn on_start(&self, ctx: &mut SpanContext) {}
+    fn on_start(&self, builder: &mut TraceContextBuilder, rec: &TraceRecord) {
+        builder
+            .reserve_trace(TRACE_RESERVE)
+            .reserve_extensions(EXT_RESERVE);
+    }
 
     /// Notifies this subscriber that the propagation of the error has been completed
     /// and that no more trace records will be appended.

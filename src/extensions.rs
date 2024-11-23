@@ -101,12 +101,22 @@ pub(crate) struct ExtensionsInner {
 }
 
 impl ExtensionsInner {
-    /// Create an empty `Extensions` with the specified capacity.
+    /// Reserves capacity for at least additional more elements.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the new allocation size overflows [`usize`].
+    ///
+    /// [`usize`]: https://doc.rust-lang.org/std/primitive.usize.html
     #[inline]
-    pub(crate) fn with_capacity(capacity: usize) -> ExtensionsInner {
-        ExtensionsInner {
-            map: AnyMap::with_capacity(capacity),
-        }
+    pub(crate) fn reserve(&mut self, capacity: usize) {
+        self.map.reserve(capacity);
+    }
+
+    /// Create an empty `Extensions`.
+    #[inline]
+    pub(crate) fn new() -> ExtensionsInner {
+        ExtensionsInner { map: AnyMap::new() }
     }
 
     /// Insert a type into this `Extensions`.
@@ -176,6 +186,21 @@ impl fmt::Debug for ExtensionsInner {
     }
 }
 
+/// Marks an object as extendable with user supplied extensions.
+pub trait Extension {
+    /// Returns a reference to this context's `Extensions`.
+    ///
+    /// The extensions may be used by the subscriber to store additional data
+    /// describing the context.
+    fn extensions(&self) -> Extensions<'_>;
+
+    /// Returns a mutable reference to this context's `Extensions`.
+    ///
+    /// The extensions may be used by the subscriber to store additional data
+    /// describing the context.
+    fn extensions_mut(&mut self) -> ExtensionsMut<'_>;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -185,7 +210,7 @@ mod tests {
 
     #[test]
     fn test_extensions() {
-        let mut extensions = ExtensionsInner::with_capacity(10);
+        let mut extensions = ExtensionsInner::new();
 
         extensions.insert(5i32);
         extensions.insert(MyType(10));
@@ -202,7 +227,7 @@ mod tests {
 
     #[test]
     fn clear_retains_capacity() {
-        let mut extensions = ExtensionsInner::with_capacity(10);
+        let mut extensions = ExtensionsInner::new();
         extensions.insert(5i32);
         extensions.insert(MyType(10));
         extensions.insert(true);
@@ -229,7 +254,7 @@ mod tests {
         struct DropMePlease(Arc<()>);
         struct DropMeTooPlease(Arc<()>);
 
-        let mut extensions = ExtensionsInner::with_capacity(10);
+        let mut extensions = ExtensionsInner::new();
         let val1 = DropMePlease(Arc::new(()));
         let val2 = DropMeTooPlease(Arc::new(()));
 

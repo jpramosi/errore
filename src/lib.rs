@@ -37,10 +37,10 @@ mod trace;
 pub use data::*;
 pub use downcast::Downcasted;
 pub use errore_impl::*;
-pub use extensions::{Extensions, ExtensionsMut};
+pub use extensions::{Extension, Extensions, ExtensionsMut};
 pub use extract::{Extract, Extractable};
 pub use location::Location;
-pub use trace::{TraceAccess, TraceContext, TraceRecord, Traceable};
+pub use trace::{TraceAccess, TraceContext, TraceContextBuilder, TraceRecord, Traceable};
 
 pub mod prelude {
     pub use crate::{

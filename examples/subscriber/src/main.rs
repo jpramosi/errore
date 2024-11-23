@@ -1,4 +1,7 @@
-use errore::{span::SpanContext, subscriber::Subscriber, TraceAccess, TraceContext};
+use errore::{
+    span::SpanContext, subscriber::Subscriber, Extension, TraceContext, TraceContextBuilder,
+    TraceRecord,
+};
 
 pub struct MyData {
     pub on_record: usize,
@@ -8,11 +11,11 @@ pub struct MyData {
 pub struct MySubscriber;
 
 impl Subscriber for MySubscriber {
-    fn on_start(&self, ctx: &mut SpanContext) {
-        println!("[{}] on_start(): {}", ctx.record.target, ctx.record.name);
+    fn on_start(&self, builder: &mut TraceContextBuilder, rec: &TraceRecord) {
+        println!("[{}] on_start(): {}", rec.target, rec.name);
 
         // optionally any user data can be attached to the error-chain/trace-context
-        ctx.extensions_mut().insert(MyData { on_record: 0 });
+        builder.extensions_mut().insert(MyData { on_record: 0 });
     }
 
     fn on_end(&self, ctx: &mut TraceContext) {

@@ -10,10 +10,12 @@ use core::{fmt, sync::atomic::Ordering};
 use crate::data::{Id, Metadata};
 use crate::dlog;
 use crate::downcast::Downcasted;
-use crate::extensions::{Extensions, ExtensionsMut};
+use crate::extensions::{Extension, Extensions, ExtensionsMut};
 use crate::extract::{Extract, Extractable};
 use crate::global::{for_each_subscriber, get_formatter};
-use crate::trace::{TraceAccess, TraceContext, TraceRecord, TraceRecordIterator};
+use crate::trace::{
+    TraceAccess, TraceContext, TraceContextBuilder, TraceRecord, TraceRecordIterator,
+};
 
 /// The `Span` represents a parent which a [`TraceRecord`] type is referring back to.
 /// Multiple of these records can be assigned to a span.
@@ -73,7 +75,9 @@ impl<'a> TraceAccess for SpanContext<'a> {
     fn iter(&self) -> TraceRecordIterator {
         self.ctx.iter()
     }
+}
 
+impl<'a> Extension for SpanContext<'a> {
     #[inline]
     fn extensions(&self) -> Extensions<'_> {
         self.ctx.extensions()
@@ -158,10 +162,22 @@ where
         let inner_ref = Arc::downgrade(&inner_owned);
 
         let insert;
-        let mut ctx = match ctx {
+        let (mut ctx, record) = match ctx {
             Some(v) => {
                 insert = false;
-                v
+
+                let record = TraceRecord {
+                    location: core::panic::Location::caller().into(),
+                    name: inner_owned.name(),
+                    target: inner_owned.target(),
+                    target_id: *inner_owned.target_id(),
+                    id: *inner_owned.id(),
+                    is_transparent: inner_owned.is_transparent(),
+                    inner: Some(inner_ref),
+                    format_span: v.format_span.clone(),
+                };
+
+                (v, record)
             }
             None => {
                 // With "fn from_residual(r: core::result::Result<Infallible, E>)"
@@ -170,26 +186,28 @@ where
                 // At the moment it is not required to keep this data around from the particular operation.
                 // Instead an IndexSet is used for the trace to only allow unique items.
                 insert = true;
-                TraceContext::new()
-            }
-        };
+                let mut builder = TraceContextBuilder::new();
+                let record = TraceRecord {
+                    location: core::panic::Location::caller().into(),
+                    name: inner_owned.name(),
+                    target: inner_owned.target(),
+                    target_id: *inner_owned.target_id(),
+                    id: *inner_owned.id(),
+                    is_transparent: inner_owned.is_transparent(),
+                    inner: Some(inner_ref),
+                    format_span: builder.format_span.clone(),
+                };
 
-        let record = TraceRecord {
-            location: core::panic::Location::caller().into(),
-            name: inner_owned.name(),
-            target: inner_owned.target(),
-            target_id: *inner_owned.target_id(),
-            id: *inner_owned.id(),
-            is_transparent: inner_owned.is_transparent(),
-            inner: Some(inner_ref),
-            format_span: ctx.format_span.clone(),
+                for_each_subscriber(|s| s.on_start(&mut builder, &record));
+
+                let ctx = builder.build();
+
+                (ctx, record)
+            }
         };
 
         dlog!("span {:#?}", record);
         let mut span_ctx = SpanContext::new(&mut ctx, &record);
-        if insert {
-            for_each_subscriber(|s| s.on_start(&mut span_ctx));
-        }
         for_each_subscriber(|s| s.on_new_span(&mut span_ctx));
 
         if insert {

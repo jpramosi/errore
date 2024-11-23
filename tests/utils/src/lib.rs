@@ -35,15 +35,13 @@ pub static DATA: LazyLock<Mutex<Option<TestContextData>>> = LazyLock::new(|| Mut
 pub struct TestSubscriber;
 
 impl Subscriber for TestSubscriber {
-    fn on_start(&self, ctx: &mut SpanContext) {
-        let record = ctx.record;
-        let mut ext = ctx.extensions_mut();
+    fn on_start(&self, builder: &mut TraceContextBuilder, rec: &TraceRecord) {
         let mut data = TestContextData::default();
 
-        data.push_str(&format!("on_start(): {}\n", record));
+        data.push_str(&format!("on_start(): {}\n", rec));
         data.on_start += 1;
 
-        ext.insert(data);
+        builder.extensions_mut().insert(data);
     }
 
     fn on_end(&self, ctx: &mut TraceContext) {

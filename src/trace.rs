@@ -21,13 +21,10 @@ type AtomicHash = portable_atomic::AtomicU32;
 use crate::data::{Id, Metadata};
 use crate::dlog;
 use crate::downcast::Downcasted;
-use crate::extensions::{Extensions, ExtensionsInner, ExtensionsMut};
+use crate::extensions::{Extension, Extensions, ExtensionsInner, ExtensionsMut};
 use crate::extract::{Extract, Extractable};
 use crate::global::{for_each_subscriber, get_formatter};
 use crate::location::Location;
-
-const TRACE_RESERVE: usize = 32;
-const EXT_RESERVE: usize = 10;
 
 /// The record represents an entity where an error was created, propagated or
 /// converted in the error chain.
@@ -257,17 +254,6 @@ impl<'a> IntoIterator for &'a TraceContext {
 }
 
 impl TraceContext {
-    #[inline]
-    pub(crate) fn new() -> Self {
-        Self {
-            trace: Vec::with_capacity(TRACE_RESERVE),
-            last_record: Arc::new(AtomicHash::new(0)),
-            format_span: Arc::new(AtomicBool::new(true)),
-            dropped: Arc::new(AtomicBool::new(false)),
-            extensions: ExtensionsInner::with_capacity(EXT_RESERVE),
-        }
-    }
-
     /// Gets the origin error.
     #[inline]
     pub fn first(&self) -> &TraceRecord {
@@ -311,6 +297,72 @@ impl TraceContext {
     }
 }
 
+/// This builder allows to configure an `TraceContext` object.
+pub struct TraceContextBuilder {
+    trace: Vec<TraceRecord>,
+    pub(crate) format_span: Arc<AtomicBool>,
+    extensions: ExtensionsInner,
+}
+
+impl TraceContextBuilder {
+    #[inline]
+    pub(crate) fn new() -> Self {
+        Self {
+            trace: Vec::new(),
+            format_span: Arc::new(AtomicBool::new(true)),
+            extensions: ExtensionsInner::new(),
+        }
+    }
+
+    /// Reserves capacity for at least additional more elements.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the new allocation size overflows [`usize`].
+    ///
+    /// [`usize`]: https://doc.rust-lang.org/std/primitive.usize.html
+    #[inline]
+    pub fn reserve_trace(&mut self, additional: usize) -> &mut Self {
+        self.trace.reserve(additional);
+        self
+    }
+
+    /// Reserves capacity for at least additional more elements.
+    ///
+    /// # Panics
+    ///
+    /// Panics if the new allocation size overflows [`usize`].
+    ///
+    /// [`usize`]: https://doc.rust-lang.org/std/primitive.usize.html
+    #[inline]
+    pub fn reserve_extensions(&mut self, additional: usize) -> &mut Self {
+        self.extensions.reserve(additional);
+        self
+    }
+
+    pub(crate) fn build(self) -> TraceContext {
+        TraceContext {
+            trace: self.trace,
+            last_record: Arc::new(AtomicHash::new(0)),
+            format_span: self.format_span,
+            dropped: Arc::new(AtomicBool::new(false)),
+            extensions: self.extensions,
+        }
+    }
+}
+
+impl Extension for TraceContextBuilder {
+    #[inline]
+    fn extensions(&self) -> Extensions<'_> {
+        Extensions::new(&self.extensions)
+    }
+
+    #[inline]
+    fn extensions_mut(&mut self) -> ExtensionsMut<'_> {
+        ExtensionsMut::new(&mut self.extensions)
+    }
+}
+
 /// Interface to interact with the collected traces.
 pub trait TraceAccess {
     /// Gets the instance id of this context.
@@ -324,18 +376,6 @@ pub trait TraceAccess {
     ///
     /// The iterator yields all items from start to end.
     fn iter(&self) -> TraceRecordIterator;
-
-    /// Returns a reference to this context's `Extensions`.
-    ///
-    /// The extensions may be used by the subscriber to store additional data
-    /// describing the context.
-    fn extensions(&self) -> Extensions<'_>;
-
-    /// Returns a mutable reference to this context's `Extensions`.
-    ///
-    /// The extensions may be used by the subscriber to store additional data
-    /// describing the context.
-    fn extensions_mut(&mut self) -> ExtensionsMut<'_>;
 }
 
 impl TraceAccess for TraceContext {
@@ -357,7 +397,9 @@ impl TraceAccess for TraceContext {
             len: self.trace.len(),
         }
     }
+}
 
+impl Extension for TraceContext {
     #[inline]
     fn extensions(&self) -> Extensions<'_> {
         Extensions::new(&self.extensions)
