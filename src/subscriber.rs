@@ -35,7 +35,7 @@ pub trait Subscriber: Sync + Send {
     /// - one span type is converted to another
     fn on_new_span(&self, ctx: &mut SpanContext) {}
 
-    /// Visits the construction of an [`TraceRecord`](crate::trace::TraceRecord) instance.
+    /// Visits the construction of an [`TraceRecord`] instance.
     ///
     /// This handler will be called before a record is inserted into the trace context.
     ///

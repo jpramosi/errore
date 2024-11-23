@@ -182,13 +182,13 @@ For more examples please see [here](https://github.com/jpramosi/errore/tree/mast
 
 # Features
 
-- Tracing capability with rich metadata such as file location and line number without [`backtrace`](https://doc.rust-lang.org/std/backtrace/index.html)
+- [`Tracing`](https://docs.rs/errore/latest/errore/struct.TraceContext.html) capability with rich metadata such as file location and line number without [`backtrace`](https://doc.rust-lang.org/std/backtrace/index.html)
 - Generates trait implementations for [`metadata`](https://docs.rs/errore/latest/errore/trait.Metadata.html) and error conversion
 - Customizable [`Subscriber`](https://github.com/jpramosi/errore/tree/master/examples/subscriber)
   and [`Formatter`](https://github.com/jpramosi/errore/tree/master/examples/formatter) interface
 - Support for user attached data with [`Extensions`](https://docs.rs/errore/latest/errore/struct.ExtensionsMut.html) at subscriber
 - Partial API compatibility with [`thiserror`](https://crates.io/crates/thiserror) that allows to optionally
-  enable `errore` in public distributed libraries.
+  enable `errore` in public distributed libraries on stable rust.
   <br>See [`example`](https://github.com/jpramosi/errore/tree/master/examples/optional)
 - Usable in application and library code
 - [`no-std`](https://github.com/jpramosi/errore/tree/master/tests/no-std) support & `wasm`compatible
@@ -209,7 +209,7 @@ For more examples please see [here](https://github.com/jpramosi/errore/tree/mast
 - For public libraries an optional feature flag for errore is advisable.
   For the best results [`thiserror`](https://crates.io/crates/thiserror) should be used.
   <br>See [Example](https://github.com/jpramosi/errore/tree/master/examples/optional)
-- For private libraries `errore` can be used _as is_. Errors are best declared on a per module basis.
+- For private libraries `errore` can be used _as is_. Errors can be declared on a per module basis or as one global type.
   <br>See [Example](https://github.com/jpramosi/errore/tree/master/examples/basic)
 - For general best-practices with `errore` the various [examples](https://github.com/jpramosi/errore/tree/master/examples)
   can serve as a good foundation
@@ -219,8 +219,8 @@ For more examples please see [here](https://github.com/jpramosi/errore/tree/mast
 - `ctor`: Utilizes *link_sections* provided by the [`ctor`](https://crates.io/crates/ctor) and [`inventory`](https://crates.io/crates/inventory)
    crates to offer a better implementation of the metadata and subscriber relevant code. The fallback implementation is based on lazy static variables.
    This feature can be disabled at `no-std` projects on build failures.
-- `debug-no-std`: Enables internal debug logging with the [`defmt`](https://crates.io/crates/defmt) crate.
-- `debug-std`: Enables internal debug logging with the [`log`](https://crates.io/crates/log) crate.
+- `debug-no-std`: Enables internal logging with the [`defmt`](https://crates.io/crates/defmt) crate to debug `errore` itself.
+- `debug-std`: Enables internal logging with the [`log`](https://crates.io/crates/log) crate to debug `errore` itself.
 - `std`: Enables standard library support. If the `std` feature is not enabled, the `alloc` crate is required.
 
 # Thanks to
