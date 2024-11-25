@@ -18,46 +18,9 @@ At the moment errore is in development and breaking changes are to be expected.
 
 <br>
 
+At first glance, errore its error definition looks quite similar to thiserror\`s:
 <div class="hide-warning">
 
-**auth.rs**
-```rust ignore
-use std::{fs, path::PathBuf};
-
-// if 'errore::result::Result' is not needed, a simple wildcard import can be used:
-// use errore::*;
-use errore::prelude::*;
-
-/// Errors for any failed authentication.
-#[derive(Error, Debug)]
-pub enum Error {
-    #[error("Invalid email or password")]
-    ReadPassword(#[from] std::io::Error),
-    #[error("Invalid email or password")]
-    InvalidCredentials,
-}
-
-// Automatically generated:
-// pub struct Ec(pub Span<Error>)
-
-fn read_password(email: &str) -> Result<String, Ec> {
-    Ok(fs::read_to_string(PathBuf::from(email))?)
-}
-
-pub fn verify(email: &str, password: &str) -> Result<(), Ec> {
-    if read_password(email)? != password {
-        return err!(Error::InvalidCredentials);
-    }
-    Ok(())
-}
-```
-
-</div>
-<br>
-
-<div class="hide-warning">
-
-**account.rs**
 ```rust ignore
 use errore::prelude::*;
 
@@ -88,68 +51,7 @@ pub fn login(email: &str, password: &str) -> Result<(), Ec> {
 </div>
 <br>
 
-<div class="hide-warning">
-
-**main.rs**
-```rust ignore
-mod account;
-mod auth;
-
-use errore::prelude::*;
-
-fn main() {
-    env_logger::builder().format_timestamp(None).init();
-
-    if let Err(ec) = account::login("root@errore.dev", "123") {
-        // print formatted error chain
-        println!("{}", ec.trace());
-
-        // print trace records
-        println!("\nTrace records:");
-        for tr in &ec {
-            println!("{}", tr);
-        }
-
-        // print the origin of the error
-        // (the deepest 'Display' trait implementation will be used)
-        println!("\nError display:\n{}", ec);
-
-        // error extraction with 'match':
-        // useful for handling multiple errors
-        match ec.error() {
-            account::Error::Authentication(ec) => match ec.error() {
-                auth::Error::ReadPassword(error) => {
-                    println!(
-                        "\nError extraction with 'match':\nOS error code {}: {}",
-                        error.raw_os_error().unwrap_or_default(),
-                        error.kind()
-                    )
-                }
-                _ => {}
-            },
-            _ => {}
-        }
-
-        // error extraction with 'get()':
-        // useful for deeply nested errors
-        if let Some(auth_error) = ec.get::<auth::Error>() {
-            match &*auth_error {
-                auth::Error::ReadPassword(error) => println!(
-                    "\nError extraction with 'get()':\nOS error code {}: {}",
-                    error.raw_os_error().unwrap_or_default(),
-                    error.kind()
-                ),
-                _ => {}
-            }
-        }
-    }
-}
-```
-
-</div>
-<br>
-
-Examplary error output:
+However, it is possible to extract additional information from the error, as shown in this sample error output:
 
 ```log
 Error: example_basic::account::Authentication
@@ -176,7 +78,8 @@ Error extraction with 'get()':
 OS error code 2: entity not found
 ```
 
-For more examples please see [here](https://github.com/jpramosi/errore/tree/master/examples).
+The complete example can be seen [here](https://github.com/jpramosi/errore/tree/master/examples/basic).
+For other examples please see [here](https://github.com/jpramosi/errore/tree/master/examples).
 
 <br>
 

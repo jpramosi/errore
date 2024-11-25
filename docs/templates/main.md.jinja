@@ -9,36 +9,16 @@ At the moment errore is in development and breaking changes are to be expected.
 
 <br>
 
+At first glance, errore its error definition looks quite similar to thiserror\`s:
 <div class="hide-warning">
 
-**auth.rs**
-```rust ignore
-{% include "../../examples/basic/src/auth.rs" %}
-```
-
-</div>
-<br>
-
-<div class="hide-warning">
-
-**account.rs**
 ```rust ignore
 {% include "../../examples/basic/src/account.rs" %}
 ```
 </div>
 <br>
 
-<div class="hide-warning">
-
-**main.rs**
-```rust ignore
-{% include "../../examples/basic/src/main.rs" %}
-```
-
-</div>
-<br>
-
-Examplary error output:
+However, it is possible to extract additional information from the error, as shown in this sample error output:
 
 ```log
 Error: example_basic::account::Authentication
@@ -65,7 +45,8 @@ Error extraction with 'get()':
 OS error code 2: entity not found
 ```
 
-For more examples please see [here](https://github.com/jpramosi/errore/tree/master/examples).
+The complete example can be seen [here](https://github.com/jpramosi/errore/tree/master/examples/basic).
+For other examples please see [here](https://github.com/jpramosi/errore/tree/master/examples).
 
 <br>
 
